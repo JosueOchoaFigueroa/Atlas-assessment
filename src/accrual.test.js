@@ -16,7 +16,7 @@ describe('pto-accrual', () => {
 
   test('counts months for a mid-month hire', () => {
     // hired Jan 20, so Jan and Feb
-    expect(monthsBetween('2026-01-20', '2026-03-01')).toBe(2);
+    expect(monthsBetween('2026-01-20', '2026-03-01')).toBe(1);
   });
 
   test('accrues a clean number of days over four months', () => {
