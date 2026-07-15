@@ -53,9 +53,17 @@ function accruedDays(annualDays, hireDate, asOf) {
   return months * monthlyRate(annualDays);
 }
 
-// PTO days available: what's been accrued minus what's been taken.
+/**
+ * Current PTO balance.
+ *
+ * Policy:
+ * - Balance = accrued - taken
+ * - Balance can never be negative
+ */
 function currentBalance(annualDays, hireDate, asOf, daysTaken) {
-  return accruedDays(annualDays, hireDate, asOf) - daysTaken;
+  const balance = accruedDays(annualDays, hireDate, asOf) - daysTaken;
+
+  return Math.max(0, balance);
 }
 
 module.exports = {
