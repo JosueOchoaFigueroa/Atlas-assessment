@@ -40,10 +40,17 @@ function monthlyRate(annualDays) {
   return annualDays / 12;
 }
 
-// PTO days accrued between the hire date and asOf.
+/**
+ * PTO days accrued between hireDate and asOf.
+ *
+ * Policy:
+ * - PTO accrues monthly.
+ * - Fractional days are preserved.
+ * - No rounding should occur.
+ */
 function accruedDays(annualDays, hireDate, asOf) {
   const months = monthsBetween(hireDate, asOf);
-  return Math.round(months * monthlyRate(annualDays));
+  return months * monthlyRate(annualDays);
 }
 
 // PTO days available: what's been accrued minus what's been taken.
