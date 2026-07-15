@@ -25,7 +25,7 @@ describe('pto-accrual', () => {
 
   test('accrues over three months', () => {
     // 3 months of accrual
-    expect(accruedDays(15, '2026-01-01', '2026-04-01')).toBe(4);
+    expect(accruedDays(15, '2026-01-01', '2026-04-01')).toBe(3.75);
   });
 
   test('balance is accrued minus days taken', () => {
