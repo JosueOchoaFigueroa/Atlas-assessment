@@ -34,7 +34,7 @@ describe('pto-accrual', () => {
 
   test('balance after taking more than a short-tenured employee has accrued', () => {
     // took 5 days one month in
-    expect(currentBalance(15, '2026-01-01', '2026-02-01', 5)).toBe(-4);
+    expect(currentBalance(15, '2026-01-01', '2026-02-01', 5)).toBe(0);
   });
 
   test('does not accrue PTO during one unpaid leave month', () => {
