@@ -41,27 +41,50 @@ function monthlyRate(annualDays) {
 }
 
 /**
- * PTO days accrued between hireDate and asOf.
+ * PTO accrued.
  *
- * Policy:
- * - PTO accrues monthly.
- * - Fractional days are preserved.
- * - No rounding should occur.
+ * unpaidLeaveMonths:
+ * Array of completed accrual months that should not accrue PTO.
+ *
+ * Example:
+ * ["2026-02", "2026-03"]
  */
-function accruedDays(annualDays, hireDate, asOf) {
-  const months = monthsBetween(hireDate, asOf);
-  return months * monthlyRate(annualDays);
+function accruedDays(
+  annualDays,
+  hireDate,
+  asOf,
+  unpaidLeaveMonths = []
+) {
+  const completedMonths = monthsBetween(hireDate, asOf);
+
+  // Never subtract more months than actually completed.
+  const unpaidMonths = Math.min(
+    completedMonths,
+    unpaidLeaveMonths.length
+  );
+
+  const eligibleMonths = completedMonths - unpaidMonths;
+
+  return eligibleMonths * monthlyRate(annualDays);
 }
 
 /**
  * Current PTO balance.
- *
- * Policy:
- * - Balance = accrued - taken
- * - Balance can never be negative
  */
-function currentBalance(annualDays, hireDate, asOf, daysTaken) {
-  const balance = accruedDays(annualDays, hireDate, asOf) - daysTaken;
+function currentBalance(
+  annualDays,
+  hireDate,
+  asOf,
+  daysTaken,
+  unpaidLeaveMonths = []
+) {
+  const balance =
+    accruedDays(
+      annualDays,
+      hireDate,
+      asOf,
+      unpaidLeaveMonths
+    ) - daysTaken;
 
   return Math.max(0, balance);
 }
